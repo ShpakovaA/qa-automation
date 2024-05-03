@@ -10,8 +10,8 @@ for column in range(0, len(lst[0]), 1):
     for index in range(0, len(lst),1):
         lst[index][column] = lst_sorted[index]
 
-for i in range(0, len(lst), 1):
-    print(lst[i])
+for row in lst:
+    print(row)
 
 
 # # ->

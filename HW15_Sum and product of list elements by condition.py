@@ -12,9 +12,9 @@ for element in lst:
     if element >= MIN and element <= MAX:
         elements_sum += element
         product *= element
-        element = True
+        isFound = True
 
-if isFound is False:
+if not isFound:
     elements_sum = None
     product = None
 
