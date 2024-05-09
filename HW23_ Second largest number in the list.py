@@ -2,32 +2,30 @@
 
 
 def second_largest_number(lst):
-    if len(lst) == 0:
-        second_max_number = None
+    if len(lst) < 2:
+        return None
 
     else:
-        lst2set = set(lst)
-        if len(lst2set) == 1:
-            second_max_number = None
-        else:
-            lst = list(lst2set)
-            max_number = lst[0]
+        first_max_number = lst[0]
+        second_max_number = lst[1]
 
-            for item in lst:
-                if item > max_number:
-                    max_number = item
+        if second_max_number > first_max_number:
+            second_max_number, first_max_number = first_max_number, second_max_number
 
-            lst.remove(max_number)
+        for number in lst[2:]:
+            if number > first_max_number:
+                second_max_number = first_max_number
+                first_max_number = number
 
-            second_max_number = lst[0]
+            elif number > second_max_number:
+                second_max_number = number
 
-            for item in lst:
-                if item > second_max_number:
-                    second_max_number = item
-
-    print(second_max_number)
+    if first_max_number == second_max_number:
+        return None
+    else:
+        return second_max_number
 
 
-second_largest_number([])  # None
-second_largest_number([1,1])  # None
-second_largest_number([1, 2, 3, 4, 5])  # 4
+print(second_largest_number([]))  # None
+print(second_largest_number([1,1]))  # None
+print(second_largest_number([1, 2, 3, 4, 5])) # 4
