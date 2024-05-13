@@ -1,5 +1,19 @@
-lst= [1, [2,3]]
-lst_2= lst*2
-print(lst_2)
-lst_2[3][0]=22
-print(lst_2)
+def check_email(email):
+    if '@' in email:
+        return True
+    else:
+        return False
+
+
+test_data = [
+    ("aaa123@bbb.ccc", True),
+    ("aaabbb.ccc", False),
+    ("aaa@bbbccc", False),
+    ("a@aa@bbb.ccc", False),
+    ("aaa@bbb.cc.c", False),
+]
+
+for email, expected_result in test_data:
+
+        observed_result = check_email(email)
+        assert observed_result is expected_result, f"Expected to get {expected_result} but got {observed_result} for {email}"
