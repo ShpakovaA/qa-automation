@@ -1,10 +1,10 @@
 def call_counter(path):
     def decorator(func):
-        def wrapper(a, b):
+        def wrapper(*args, **kwargs):
             wrapper.count += 1
             with open(path, "a") as f:
                 f.write(f"Function {func.__name__} was called {wrapper.count} times\n")
-            return func(a, b)
+            return func(*args, **kwargs)
         wrapper.count = 0
         return wrapper
     return decorator
