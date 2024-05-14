@@ -1,8 +1,8 @@
 def skip_if(condition, reason=''):
     def decorator(func):
-        def wrapper():
+        def wrapper(*args, **kwargs):
             if condition is False:
-                return func()
+                return func(*args, **kwargs)
             if reason != '':
                 print(reason)
 
