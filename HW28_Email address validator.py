@@ -2,8 +2,9 @@
 import re
 
 email = "aaa@bbb.ccc"
-# email = "@aaabbb.ccc"
-# email = "aaa@bbbccc."
+# email = "aa_a@bbb.ccc"
+# email = "@aaab bb.ccc"
+# email = "a_aa@bbbccc."
 # email = "aaa@bbbccc"
 # email = "aaabbb.ccc"
 # email = "@aaabbbccc."
@@ -15,18 +16,10 @@ email = "aaa@bbb.ccc"
 # email = "@aaa.bb$b@cc.l@^c."
 
 def email_validator_1(email):
-    if re.fullmatch(r'(\w+\@{1}\w+\.{1}\w+)', email):
+    if re.fullmatch(r'[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+', email):
         return True
     else:
         return False
 
 
 print(email_validator_1(email))
-
-def email_validator_2(email):
-    if re.search(r'(^\w+\@{1}\w+\.{1}\w+$)', email):
-        return True
-    else:
-        return False
-
-print(email_validator_2(email))
