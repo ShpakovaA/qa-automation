@@ -2,7 +2,9 @@ def custom_zip(*sequences, full=False, default=None) -> list:
     result = []
     if full:
         length_ = max(len(sequence) for sequence in sequences)
+
         for sequence in sequences:
+            if len(sequence) < length_:
                 while len(sequence) < length_:
                     sequence.append(default)
     else:
