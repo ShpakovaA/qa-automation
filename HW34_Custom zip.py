@@ -11,7 +11,7 @@ def custom_zip(*sequences, full=False, default=None) -> list:
         length_ = min(len(sequence) for sequence in sequences)
 
     for i in range(length_):
-        result.append(tuple([*[sequence[i] for sequence in sequences]]))
+        result.append(tuple(sequence[i] for sequence in sequences))
 
     return result
 
