@@ -4,7 +4,6 @@ count = 1
 
 while count <= n:
     spaces = n - count
-    count_numbers = count-1
 
     for space in range(0, spaces):
         print(" ", end=" ")
@@ -15,13 +14,10 @@ while count <= n:
         else:
             print(number, end=" ")
 
-    while count_numbers >= 1:
-        if count_numbers == 1:
-            print(count_numbers, end="")
+    for number in range(count-1, 0, -1):
+        if number == 1:
+            print(number, end="")
         else:
-            print(count_numbers, end=" ")
-
-        count_numbers -= 1
-
+            print(number, end=" ")
     print()
     count += 1
