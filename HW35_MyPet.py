@@ -1,16 +1,16 @@
 
 """
-    Tamagotchi: can create pets that have favourite food and toy, feed them and play fetch
+    Tamagotchi: can create pets that have favourite food and toy, feed, pat them and play fetch
 
 """
 class MyPet:
 
-    FAVOURITE_TOY = "ball"
-    FAVOURITE_FOOD = "cheese"
-    ENERGETIC = True
-    def __init__(self, animal, name):
+    def __init__(self, animal, name, favourite_toy: str, favourite_food: str, energetic=True):
         self.animal = animal
         self.name = name
+        self.favourite_toy = favourite_toy
+        self.favourite_food = favourite_food
+        self.energetic = energetic
 
     def feed(self, food: str):
         """
@@ -18,7 +18,7 @@ class MyPet:
         :param food: food to feed
         :return: pet's impression of the food
         """
-        if food.lower() == MyPet.FAVOURITE_FOOD:
+        if food.lower() == self.favourite_food.lower():
             print("Mmmm...Yum")
         else:
             print("yucks....")
@@ -26,43 +26,42 @@ class MyPet:
     def play_fetch(self):
         """
         Pet fetches favourite toy
-        :return: makes animal tired, pet doesn't play if tired
+        makes animal tired, pet doesn't play if tired
         """
-        if MyPet.ENERGETIC:
-            print(f"{self.name} goes after the {MyPet.FAVOURITE_TOY}")
-            MyPet._change_energy_level()
+        if self.energetic:
+            print(f"{self.name} goes after the {self.favourite_toy}")
+            self._change_energy_level()
         else:
             print("Tired! Let's sleep")
 
-    @staticmethod
-    def sleep():
+    def sleep(self):
         """
-        Puts pet to sleep
-        :return: make pet energetic
+        Puts pet to sleep, makes pet energetic
         """
         print("shhh! Your pet is sleeping")
-        MyPet._change_energy_level()
+        self._change_energy_level()
 
-    @classmethod
-    def change_favourite_toy(cls, new_favourite_toy):
-        MyPet.FAVOURITE_TOY = new_favourite_toy
+    def buy_new_toy(self, new_toy):
+        self.favourite_toy = new_toy
 
-    @classmethod
-    def _change_energy_level(cls):
-        if MyPet.ENERGETIC:
-            MyPet.ENERGETIC = False
+    def _change_energy_level(self):
+        if self.energetic:
+            self.energetic = False
         else:
-            MyPet.ENERGETIC = True
+            self.energetic = True
+    @staticmethod
+    def pat_the_pet():
+        print("Pet is happy!!!")
 
 
-lota = MyPet("Dog", "Lota")
+lota = MyPet("Dog", "Lota", "ball", "cheese")
 lota.feed("Lemon")
 lota.play_fetch()
-MyPet.change_favourite_toy("Teddy Bear")
+lota.buy_new_toy("Teddy Bear")
 lota.play_fetch()
 lota.sleep()
 lota.play_fetch()
-
+lota.pat_the_pet()
 
 
 

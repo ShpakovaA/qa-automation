@@ -1,12 +1,14 @@
+import random
+
 """
   Slot machine game
 """
 class SlotMachineGame:
 
-    def __init__(self, balance: int, isMember = None, freeGame = True):
+    def __init__(self, balance: int, is_member=None, free_game=True):
         self.balance = balance
-        self.isMember = isMember
-        self.freeGame = freeGame
+        self.is_member = is_member
+        self.__free_game = free_game
 
     WIN = 1000000
     GAME_FEE = 50
@@ -16,8 +18,6 @@ class SlotMachineGame:
                 Game fee deducts from balance,
                 if two random numbers match it's a win, balance increases with the WIN amount
         """
-        import random
-
         self.balance -= SlotMachineGame.GAME_FEE
         if random.random() == random.random():
             self.balance += SlotMachineGame.WIN
@@ -34,16 +34,20 @@ class SlotMachineGame:
             self._spin()
 
         else:
-            if self.isMember and self.freeGame:
+            if self.is_member and self.__free_game:
                 print("You are broke! But members get one game free")
                 self._spin()
-                self.freeGame = False
+                self.__free_game = False
 
             else:
                 print("Please, top up")
 
     def top_up(self, amount: int):
         self.balance += amount
+
+    @classmethod
+    def change_game_fee(cls, new_fee):
+        cls.GAME_FEE = new_fee
 
 
 play = SlotMachineGame(20, True)
@@ -54,3 +58,5 @@ play2 = SlotMachineGame(20)
 play2.play()
 play2.top_up(100)
 play2.play()
+
+
