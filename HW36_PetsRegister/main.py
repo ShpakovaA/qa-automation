@@ -59,3 +59,8 @@ print()
 print(PetsRegistrator.show_pet_info("Lota"))
 pet1.change_owner(owner=owner3)
 print(pet1.owner.owner_info)
+print()
+
+#update pet info in registry
+PetsRegistrator.update_pet_info(pet1)
+print(PetsRegistrator.show_pet_info("Lota"))
