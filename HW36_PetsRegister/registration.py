@@ -45,4 +45,9 @@ class PetsRegistrator:
     def show_registered_animals_number():
         return len(PetsRegistrator.__pets_registry)
 
+    @staticmethod
+    def update_pet_info(pet: Pet):
+        PetsRegistrator.delete_pet_record(pet.name, str(pet.owner))
+        PetsRegistrator.register_new_pet(pet)
+
 
