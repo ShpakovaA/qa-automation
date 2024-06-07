@@ -1,4 +1,4 @@
-"""This module contains class Pet that inherits Animal class"""
+"""This module contains class Pet that inherits Animal class for Pets Registry System"""
 
 from animal import Animal
 from animal import AnimalType
@@ -18,7 +18,8 @@ class Pet(Animal):
     @property
     def owner(self):
         return self._owner
-
+    def get_name(self):
+        return self.name
 
     def change_owner(self, owner: Owner):
         self._owner = owner

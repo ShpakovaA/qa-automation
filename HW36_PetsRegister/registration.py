@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from pet import Pet
 import random
 
@@ -15,13 +17,32 @@ class PetsRegistrator:
 
     @staticmethod
     def show_pet_info(pet_name):
+        result = {}
         for k, v in PetsRegistrator.__pets_registry.items():
             if pet_name in v:
-                return k, v
-            else:
-                return "The pet hasn't been registered"
+                result[k] = v
+        if result:
+            return result
+        else:
+            return "The pet hasn't been registered"
+
+    @staticmethod
+    def delete_pet_record(pet_name, owner_name):
+        for k, v in PetsRegistrator.__pets_registry.items():
+            if pet_name in v and str(v).find(owner_name):
+                del PetsRegistrator.__pets_registry[k]
+                break
+
 
     @staticmethod
     def show_registered_animals():
-        for i in PetsRegistrator.__pets_registry.items():
-            print(i)
+        result = {}
+        for k, v in PetsRegistrator.__pets_registry.items():
+            result[k] = v
+        return result
+
+    @staticmethod
+    def show_registered_animals_number():
+        return len(PetsRegistrator.__pets_registry)
+
+

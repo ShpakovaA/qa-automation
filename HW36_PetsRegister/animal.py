@@ -25,9 +25,6 @@ class Animal:
         self.type = type
         self.color = color
 
-    def __str__(self):
-        return f"{self.color.name.lower()} {self.model} '{self.plate_number}' {self.car_class.name.lower()} class"
-
     @property
     def age(self):
         return f"{datetime.datetime.now().year - self.year} years"
