@@ -1,5 +1,6 @@
 from typing import Union
 
+
 class Pixel:
     pixels = [x for x in range(0, 256)]
 
@@ -33,66 +34,36 @@ class Pixel:
         return f"Pixel({self.__red}, {self.__green}, {self.__blue})"
 
     def __add__(self, other):
-        r = self.__red + other.red
-        if r > 255:
-            r = 255
-        g = self.__green + other.green
-        if g > 255:
-            g = 255
-        b = self.__blue + other.blue
-        if b > 255:
-            b = 255
+        r = min(self.__red + other.red, 255)
+        g = min(self.__green + other.green, 255)
+        b = min(self.__blue + other.blue, 255)
         return Pixel(r, g, b)
 
     def __sub__(self, other):
-        r = self.__red - other.red
-        if r < 0:
-            r = 0
-        g = self.__green - other.green
-        if g < 0:
-            g = 0
-        b = self.__blue - other.blue
-        if b < 0:
-            b = 0
+        r = max(0, self.__red - other.red)
+        g = max(0, self.__green - other.green)
+        b = max(0, self.__blue - other.blue)
         return Pixel(r, g, b)
 
     def __mul__(self, number: Union[int, float]):
         if number <= 0:
             raise ValueError("Should be more than 0")
         else:
-            r = self.__red * number
-            if r > 255:
-                r = 255
-            g = self.__green * number
-            if g > 255:
-                g = 255
-            b = self.__blue * number
-            if b > 255:
-                b = 255
+            r = min(self.__red * number, 255)
+            g = min(self.__green * number, 255)
+            b = min(self.__blue * number, 255)
             return Pixel(int(r), int(g), int(b))
 
     def __rmul__(self, number: Union[int, float]):
-        if number <= 0:
-            raise ValueError("Should be more than 0")
-        else:
-            r = self.__red * number
-            if r > 255:
-                r = 255
-            g = self.__green * number
-            if g > 255:
-                g = 255
-            b = self.__blue * number
-            if b > 255:
-                b = 255
-            return Pixel(int(r), int(g), int(b))
+        return Pixel.__mul__(self, number)
 
     def __truediv__(self, number: Union[int, float]):
         if number <= 0:
             raise ValueError("Should be more than 0")
         else:
-            r = self.__red / number
-            g = self.__green / number
-            b = self.__blue / number
+            r = min(255.0, self.__red / number)
+            g = min(255.0, self.__green / number)
+            b = min(255.0, self.__blue / number)
             return Pixel(int(r), int(g), int(b))
 
     def __eq__(self, other):
