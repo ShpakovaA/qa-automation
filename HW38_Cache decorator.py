@@ -13,8 +13,7 @@ def result_cache_decorator(func):
 
         elif kwargs:
             for i in func_results.keys():
-                print(dict(i))
-                if all(dict(key).get(k) == v for k, v in dict(i).items()):
+                if isinstance(i[0], tuple) and all(dict(key).get(k) == v for k, v in dict(i).items()):
                     return func_results[i]
 
         result = func(*args, **kwargs)
@@ -26,12 +25,10 @@ def result_cache_decorator(func):
 
 @result_cache_decorator
 def custom_sqrt(x):
-    print("func call")
     return math.sqrt(x)
 
 
 @result_cache_decorator
 def custom_add(a, b, c):
-    print("func call")
     return a + b + c
 
