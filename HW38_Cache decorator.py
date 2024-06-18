@@ -5,18 +5,10 @@ def result_cache_decorator(func):
     func_results = {}
 
     def wrapper(*args, **kwargs):
-        key = (*args, *kwargs.items())
-        match = False
+        key = frozenset((*args, *kwargs.items()))
 
-        for results_key in func_results.keys():
-            for element in key:
-                if element in results_key:
-                    match = True
-                else:
-                    match = False
-                    break
-            if match:
-                return func_results[results_key]
+        if key in func_results.keys():
+            return func_results[key]
 
         result = func(*args, **kwargs)
         func_results[key] = result
@@ -33,6 +25,5 @@ def custom_sqrt(x):
 @result_cache_decorator
 def custom_add(a, b, c):
     return a + b + c
-
 
 
