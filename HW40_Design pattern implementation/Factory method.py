@@ -51,11 +51,17 @@ class SerializerFactory:
                                    'xml': XMLSerializer}
 
     def get_serializer(self, format_):
-        return self.serializer_mapping.get(format_)()
+        try:
+            format_from_mapping = self.serializer_mapping.get(format_)()
+        except TypeError:
+            print("Format is not implemented")
+        else:
+            return format_from_mapping
 
 
 file = "Product info"
 serializer = SerializerFactory()
+
 try:
     xml = serializer.get_serializer("xml")
     xml.serializer(file)
@@ -63,6 +69,6 @@ try:
     json_.serializer(file)
     other = serializer.get_serializer("other")
     other.serializer(file)
-except (TypeError, AttributeError):
-    print("Format is not implemented")
+except AttributeError:
+    print("Unable to serialize file with no implemented format")
 
