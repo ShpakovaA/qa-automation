@@ -70,3 +70,6 @@ class Pixel:
         if not isinstance(other, Pixel):
             return False
         return self.__red == other.red and self.__green == other.green and self.__blue == other.blue
+
+
+p
