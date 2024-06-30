@@ -58,6 +58,8 @@ class Pixel:
         return Pixel.__mul__(self, number)
 
     def __truediv__(self, number: Union[int, float]):
+        # if not isinstance(number, Union[int,float]):
+        #     raise TypeError("Should be int or float")
         if number <= 0:
             raise ValueError("Should be more than 0")
         else:
@@ -72,4 +74,6 @@ class Pixel:
         return self.__red == other.red and self.__green == other.green and self.__blue == other.blue
 
 
-p
+pixel1 = Pixel(0, 1, 2)
+pixel2 = Pixel(1, 2, 255)
+print(pixel1)
