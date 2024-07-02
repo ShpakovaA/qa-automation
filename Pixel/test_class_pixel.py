@@ -16,7 +16,6 @@ def test_valid_values_pixel(red, green, blue):
 def test_invalid_value_pixel(red, green, blue):
     with pytest.raises(ValueError, match=re.escape("The value should be in range [0, 255]")) as exc:
         pixel = Pixel(red, green, blue)
-    assert str(exc.value) == "The value should be in range [0, 255]"
 
 
 @pytest.mark.parametrize('red, green, blue', [("89", 256, 1), (45, [6, 8], 80), (34, 93, (2, 4, 5))])
@@ -95,7 +94,6 @@ def test_dividing_pixel_by_invalid_number(number, nominal_pixel):
 
 @pytest.mark.parametrize('number', ("34", [2, 4, 3], {"red": 23, "green": 100, "blue": 182}))
 def test_dividing_pixel_by_invalid_type(number, nominal_pixel):
-    pixel = Pixel(1, 10, 100)
     with pytest.raises(TypeError):
         nominal_pixel / number
 
@@ -107,7 +105,8 @@ def test_multiplying_pixel_by_invalid_type(number, nominal_pixel):
 
 
 def test_two_pixel_objects_equation_equal(nominal_pixel):
-    assert nominal_pixel == nominal_pixel
+    pixel2 = Pixel(1, 10, 100)
+    assert nominal_pixel == pixel2
 
 
 def test_two_pixel_objects_inequity(nominal_pixel):
@@ -122,10 +121,10 @@ def test_pixel_object_inequity_with_other_object(nominal_pixel):
 
 def test_str_method(nominal_pixel):
     expected_string = f"Pixel object\n\tRed: {nominal_pixel.red}\n\tGreen: {nominal_pixel.green}\n\tBlue: {nominal_pixel.blue}"
-    assert nominal_pixel.__str__() == expected_string
+    assert str(nominal_pixel) == expected_string
 
 
 def test_repr_method(nominal_pixel):
     expected_string = f"Pixel({nominal_pixel.red}, {nominal_pixel.green}, {nominal_pixel.blue})"
-    assert nominal_pixel.__repr__() == expected_string
+    assert repr(nominal_pixel) == expected_string
 
