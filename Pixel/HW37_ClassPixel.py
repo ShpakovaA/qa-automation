@@ -10,7 +10,9 @@ class Pixel:
         self.__blue = blue
 
     def __setattr__(self, key, value):
-        if value in self.pixels:
+        if not isinstance(value, int):
+            raise TypeError("The value should be int")
+        elif value in self.pixels:
             self.__dict__[key] = value
         else:
             raise ValueError("The value should be in range [0, 255]")
@@ -70,3 +72,5 @@ class Pixel:
         if not isinstance(other, Pixel):
             return False
         return self.__red == other.red and self.__green == other.green and self.__blue == other.blue
+
+
