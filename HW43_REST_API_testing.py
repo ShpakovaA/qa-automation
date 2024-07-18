@@ -76,5 +76,3 @@ def test_post_creation_with_empty_field(user_id):
     post_error_message = post.json()[0]["message"]
     assert post.status_code == 422
     assert post_error_message == "can't be blank"
-
-
