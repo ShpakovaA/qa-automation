@@ -1,12 +1,12 @@
 from HW43_REST_API.api_client import API
 import pytest
-from HW43_REST_API.resources import Resources
+from HW43_REST_API.test_data import TestData
 
 
 @pytest.fixture()
 def user():
     api_client = API()
-    user = api_client.create_user(Resources.VALID_USER_DATA)
+    user = api_client.create_user(TestData.VALID_USER_DATA)
     user_id_ = user.json()["id"]
     yield user
     api_client.delete_user(user_id_)

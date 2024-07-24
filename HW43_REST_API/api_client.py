@@ -45,4 +45,12 @@ class API:
         posts = self.retrieve_user_posts(user_ID).json()
         return list(map(itemgetter('id'), posts))
 
+    def retrieve_posts_titles(self, user_ID):
+        posts = self.retrieve_user_posts(user_ID).json()
+        return list(map(itemgetter('title'), posts))
+
+    def retrieve_posts_body(self, user_ID):
+        posts = self.retrieve_user_posts(user_ID).json()
+        return list(map(itemgetter('body'), posts))
+
 
