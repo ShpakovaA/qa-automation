@@ -45,12 +45,16 @@ class API:
         posts = self.retrieve_user_posts(user_ID).json()
         return list(map(itemgetter('id'), posts))
 
-    def retrieve_posts_titles(self, user_ID):
-        posts = self.retrieve_user_posts(user_ID).json()
-        return list(map(itemgetter('title'), posts))
+    def retrieve_post_data(self, post_id):
+        resource = f"posts/{post_id}"
+        path = urljoin(self.base_url, resource)
+        post_data = requests.get(path, headers=API.VALID_HEADERS).json()
+        return post_data
 
-    def retrieve_posts_body(self, user_ID):
-        posts = self.retrieve_user_posts(user_ID).json()
-        return list(map(itemgetter('body'), posts))
+    def retrieve_post_title(self, post_id):
+        return self.retrieve_post_data(post_id)["title"]
+
+    def retrieve_post_body(self, post_id):
+        return self.retrieve_post_data(post_id)["body"]
 
 
