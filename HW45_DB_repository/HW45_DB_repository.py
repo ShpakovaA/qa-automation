@@ -18,20 +18,25 @@ class TeachersRepository:
     def __init__(self, db_path):
         self._connection = sqlite3.connect(db_path, isolation_level=None)
         self._cursor = self._connection.cursor()
-        self._cursor_execute = self._cursor.execute("CREATE TABLE IF NOT EXISTS Teachers(id INTEGER PRIMARY KEY, name TEXT, subject TEXT, experience_years INTEGER, salary REAL);")
+        self._cursor.execute("CREATE TABLE IF NOT EXISTS Teachers(id INTEGER PRIMARY KEY, name TEXT, subject TEXT, experience_years INTEGER, salary REAL);")
 
     # adds one record by passed object into methods;
     def add_teacher(self, teacher: Teacher):
         return self._cursor.execute(f"INSERT INTO Teachers(name, subject, experience_years, salary) VALUES('{teacher.name}', '{teacher.subject}', {teacher.experience_years}, {teacher.salary});")
 
-    # add several records by passed objects into methods;
     def add_teachers(self, *teachers):
+        atr_data = []
         for teacher in teachers:
-            self.add_teacher(teacher)
+            atr_data.append(self._get_object_attributes(teacher))
+        return self._cursor.executemany(f"INSERT INTO Teachers(name, subject, experience_years, salary) VALUES(?, ?, ?, ?);", atr_data)
 
     # obtains all records as list of objects of user defined classes;
     def get_all(self):
         self._cursor.execute(f"SELECT * FROM Teachers")
+        return TeachersRepository._rows_to_objects(self._cursor.fetchall())
+
+    def get_teacher_by_name(self, name: str):
+        self._cursor.execute("SELECT * FROM Teachers WHERE name=?;", (name,))
         return TeachersRepository._rows_to_objects(self._cursor.fetchall())
 
     # obtaining records by condition
@@ -65,9 +70,33 @@ class TeachersRepository:
             objects.append(TeachersRepository._row_to_obj(row))
         return objects
 
+    @staticmethod
+    def _get_object_attributes(teacher:Teacher):
+        return teacher.name,teacher.subject, teacher.experience_years, teacher.salary
+
     def close(self):
         if self._connection:
             self._cursor.close()
             self._connection.close()
 
+
+teachers_repo = TeachersRepository("teachers_db")
+teacher1 = Teacher("Owen Jeckson", "Art", 0, 0)
+teacher2 = Teacher("John Lewis", "Since", 3, 2500)
+print(teachers_repo.get_all())
+print()
+teachers_repo.add_teachers(teacher1, teacher2)
+print(teachers_repo.get_all())
+
+print(teachers_repo.get_teacher_by_subject("art"))
+
+print(teachers_repo.get_teacher_by_name("Adam Smith"))
+
+teachers_repo.update_teacher_experience("Adam Smith", 5)
+teachers_repo.change_salary("Adam Smith", 2400)
+print(teachers_repo.get_teacher_by_name("Adam Smith"))
+
+teachers_repo.delete_teacher("John Lewis")
+teachers_repo.delete_teachers_with_no_experience()
+print(teachers_repo.get_all())
 
