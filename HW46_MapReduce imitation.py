@@ -2,6 +2,7 @@ import random
 import os
 import string
 from threading import Thread
+import time
 
 
 def file_generator(directory, number_of_files, size):
@@ -45,65 +46,49 @@ def letter_counter_in_one_thread_2(directory, letter_to_find):
     return count
 
 
-
-def letter_counter_in_n_threads(directory, letter_to_find, number_of_threads):
-    pass
-#
-#
-# def count_in_file(file, letter_to_find):
-#     count = 0
-#     with open(file, "r") as f:
-#         text = f.read()
-#         count += text.count(letter_to_find)
-#     return count
-#
-#
-#
-#
-# for number in range(7):
-#     thread = Thread(target=count_in_file, args=("new_dir", "B"))
-#     thread.start()
-
-# print(count_in_file("new_dir/test4.txt", "B"))
-
-
-threads_number = 7
-directory_files = os.listdir("new_dir")
-files_in_directory = len(directory_files)
-n = 0
-files_for_threads = []
-while len(directory_files) % threads_number != 0:
-    threads_number -= 1
-files_in_threads = round(len(directory_files) / threads_number)
-
-while n < len(directory_files):
-    list = []
-    for i in range(files_in_threads):
-        list.append(directory_files[n])
-        n += 1
-    files_for_threads.append(list)
-
-
-def count_in_files(directory, files, letter_to_find):
+def count_in_files(directory, files, letter_to_find, result=None):
+    if result is None:
+        result = []
     count = 0
     for file in files:
-        print(file)
         path = os.path.join(directory, file)
         with open(path, "r") as f:
             text = f.read()
             count += text.count(letter_to_find)
-
+    result.append(count)
     return count
 
 
-for number in range(len(files_for_threads)):
-    thread = Thread(target=count_in_files, args=("new_dir", files_for_threads[number], "B"))
-    thread.start()
+def letter_counter_in_n_threads(directory, letter_to_find, number_of_threads):
+
+    directory_files = os.listdir(directory)
+    files_in_directory = len(directory_files)
+    files_per_thread = max(1, round(files_in_directory / number_of_threads))
+
+    # files_for_threads = []
+    # for i in range(0, files_in_directory, files_per_thread):
+    #     files_for_threads.append(directory_files[i:i+files_per_thread])
+    files_for_threads = [directory_files[i:i+files_per_thread] for i in range(0, files_in_directory, files_per_thread)]
+
+    result = []
+
+    for i in range(len(files_for_threads)):
+        thread = Thread(target=count_in_files, args=(directory, files_for_threads[i], letter_to_find, result))
+        thread.start()
+        thread.join()
+    return sum(result)
 
 
+def func_execution_time(func, *params):
+    start_time = time.time()
+    func(*params)
+    end_time = time.time()
+    return end_time - start_time
 
 
-
-# file_generator("new_dir", 5, 4)
-# print(letter_counter_in_one_thread_1("new_dir", "B"))
-# print(letter_counter_in_one_thread_2("new_dir", "B"))
+file_generator("new_dir", 50, 100)
+print(letter_counter_in_one_thread_1("new_dir", "B"))
+print(func_execution_time(letter_counter_in_one_thread_1, "new_dir", "B"))
+print()
+print(letter_counter_in_n_threads("new_dir", "B", 150))
+print(func_execution_time(letter_counter_in_n_threads, "new_dir", "B", 150))
