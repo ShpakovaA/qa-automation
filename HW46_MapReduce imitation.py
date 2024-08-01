@@ -12,7 +12,7 @@ def file_generator(directory, number_of_files, size):
 
     for n in range(number_of_files):
 
-        file_name = "test" + str(n) + ".txt"
+        file_name = f"test{str(n)}.txt"
         file_path = os.path.join(directory, file_name)
         data = "".join(random.choices(string.ascii_letters + string.digits + string.punctuation, k=file_size))
 
@@ -69,7 +69,6 @@ def letter_counter_in_n_threads(directory, letter_to_find, number_of_threads):
     for i in range(0, files_in_directory, files_per_thread):
         files = directory_files[i:i + files_per_thread]
         files_qty = len(files)
-
         if len(files_for_threads) == number_of_threads:
 
             for n in range(files_qty):
@@ -103,7 +102,7 @@ print(end_time-start_time)
 print()
 
 start_time = time.time()
-print(letter_counter_in_n_threads("new_dir", "B", 22))
+print(letter_counter_in_n_threads("new_dir", "B", 4))
 end_time = time.time()
 print(end_time-start_time)
 
