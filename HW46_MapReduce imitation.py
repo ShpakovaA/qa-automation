@@ -61,7 +61,6 @@ def count_in_files(directory, files, letter_to_find, result=None):
 
 
 def letter_counter_in_n_threads(directory, letter_to_find, number_of_threads):
-
     directory_files = os.listdir(directory)
     files_in_directory = len(directory_files)
     files_per_thread = max(1, round(files_in_directory / number_of_threads))
@@ -71,9 +70,12 @@ def letter_counter_in_n_threads(directory, letter_to_find, number_of_threads):
         files = directory_files[i:i + files_per_thread]
         files_qty = len(files)
 
-        if files_qty < files_per_thread:
+        if len(files_for_threads) == number_of_threads:
+
             for n in range(files_qty):
-                files_for_threads[n].append(files[n])
+                dif = files_in_directory-i
+                dif -= n
+                files_for_threads[dif].append(files[n])
         else:
             files_for_threads.append(files)
 
@@ -97,9 +99,11 @@ start_time = time.time()
 print(letter_counter_in_one_thread_2("new_dir", "B"))
 end_time = time.time()
 print(end_time-start_time)
+
 print()
+
 start_time = time.time()
-print(letter_counter_in_n_threads("new_dir", "B", 100))
+print(letter_counter_in_n_threads("new_dir", "B", 22))
 end_time = time.time()
 print(end_time-start_time)
 
