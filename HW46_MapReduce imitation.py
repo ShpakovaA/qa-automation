@@ -6,13 +6,14 @@ import time
 
 
 def file_generator(directory, number_of_files, size):
+
+    file_size = int(random.uniform(size / 2, size))
+    os.makedirs(os.path.basename(directory), exist_ok=True)
+
     for n in range(number_of_files):
 
         file_name = "test" + str(n) + ".txt"
         file_path = os.path.join(directory, file_name)
-        os.makedirs(os.path.dirname(file_path), exist_ok=True)
-
-        file_size = int(random.uniform(size / 2, size))
         data = "".join(random.choices(string.ascii_letters + string.digits + string.punctuation, k=file_size))
 
         with open(file_path, "w") as file:
@@ -90,15 +91,15 @@ def letter_counter_in_n_threads(directory, letter_to_find, number_of_threads):
     return sum(result)
 
 
-def func_execution_time(func, *params):
-    start_time = time.time()
-    func(*params)
-    end_time = time.time()
-    return end_time - start_time
+file_generator("new_dir", 50, 500)
 
-
-file_generator("new_dir", 10, 20)
-print(letter_counter_in_one_thread_1("new_dir", "B"))
+start_time = time.time()
+print(letter_counter_in_one_thread_2("new_dir", "B"))
+end_time = time.time()
+print(end_time-start_time)
 print()
-print(letter_counter_in_n_threads("new_dir", "B", 4))
+start_time = time.time()
+print(letter_counter_in_n_threads("new_dir", "B", 100))
+end_time = time.time()
+print(end_time-start_time)
 
